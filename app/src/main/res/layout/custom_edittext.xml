@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/customview_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:minHeight="80dp">
+
+    <View
+        android:id="@+id/customedittext_border"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/s_border"
+        app:layout_constraintBottom_toBottomOf="@+id/customedittext_edittext"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/customedittext_edittext"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/customedittext_floating_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:background="@android:color/white"
+        android:fontFamily="@font/arial"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="First name " />
+
+    <TextView
+        android:id="@+id/customedittext_hint"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/arial"
+        android:gravity="center_vertical"
+        android:text="First Name"
+        android:textColor="#AAAAAA"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/customedittext_border"
+        app:layout_constraintEnd_toEndOf="@id/customedittext_edittext"
+        app:layout_constraintStart_toStartOf="@id/customedittext_edittext"
+        app:layout_constraintTop_toTopOf="@+id/customedittext_border"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/customedittext_edittext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/arial"
+        android:minHeight="60dp"
+        android:nestedScrollingEnabled="false"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/customedittext_rightdrawable"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/customedittext_rightdrawable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:adjustViewBounds="true"
+        android:maxHeight="30dp"
+        android:maxWidth="50dp"
+        android:scaleType="fitXY"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/customedittext_border"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/customedittext_border" />
+
+    <TextView
+        android:id="@+id/customedittext_edittext_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/arial"
+        android:textColor="@color/error"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/customedittext_border"
+        app:layout_constraintTop_toBottomOf="@+id/customedittext_edittext"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="This field is required \n test" />
+
+
+</android.support.constraint.ConstraintLayout>

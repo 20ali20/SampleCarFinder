@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Fair</string>
+    <string name="provider">Provider</string>
+    <string name="miles">mi</string>
+    <string name="vehicleType">Vehicle Type</string>
+    <string name="features">Features</string>
+    <string name="SortBy" />
+    <string name="sortby">Sort By</string>
+    <string name="noresults">No Results Found!</string>
+    <string name="Locate">Locate on the map</string>
+    <string name="navigate">Get Navigation</string>
+    <string name="select">Please fill the fields below before we proceed.</string>
+</resources>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/s_leftrightborder">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/arial"
+        android:text="@string/vehicleType"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ic_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/arial"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:text="2/4 Door Intermediate" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/arial"
+        android:text="@string/features"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="@+id/ic_type"
+        app:layout_constraintTop_toBottomOf="@+id/ic_type" />
+
+    <TextView
+        android:id="@+id/ic_features"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/arial"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="Automatic Transmission \n Air Conditioning" />
+
+    <TextView
+        android:id="@+id/ic_estimate"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/arial"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ic_features"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView2"
+        tools:text="$189" />
+
+    <TextView
+        android:id="@+id/ic_dailyrate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/arial"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/ic_estimate"
+        app:layout_constraintStart_toStartOf="@+id/ic_estimate"
+        app:layout_constraintTop_toBottomOf="@+id/ic_estimate"
+        tools:text="$19 / day" />
+
+</android.support.constraint.ConstraintLayout>

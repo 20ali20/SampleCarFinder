@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomEditText">
+        <attr name="hint" format="string" />
+        <attr name="text" format="string" />
+        <attr name="hintOnFocus" format="string"/>
+        <attr name="maxLines" format="integer" />
+        <attr name="maxLength" format="integer" />
+        <attr name="allowMultiLine" format="boolean" />
+        <attr name="inputType" format="enum">
+            <enum name="passwordVisible" value="0" />
+            <enum name="passwordHidden" value="1" />
+            <enum name="text" value="2" />
+            <enum name="phone" value="3" />
+            <enum name="number" value="4" />
+            <enum name="email" value="5" />
+            <enum name="zipCode" value="6" />
+            <enum name="date" value="7" />
+        </attr>
+        <attr name="errorColor" format="color" />
+        <attr name="borderColor" format="color" />
+        <attr name="hintColor" format="color" />
+        <attr name="textColor" format="color" />
+        <attr name="floatingLabelColor" format="color" />
+        <attr name="textSize" format="dimension" />
+        <attr name="lineSpacingMultiplier" format="dimension" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Modules.Selection.FindCarActivity">
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/arial"
+            android:text="@string/select"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.alimojarrad.fair.Modules.Common.CustomViews.CustomEditText
+            android:id="@+id/findcaractivity_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:hint="Please Enter your address here"
+            app:hintOnFocus="Address"
+            app:inputType="text"
+            app:layout_constraintEnd_toEndOf="@+id/textView8"
+            app:layout_constraintStart_toStartOf="@+id/textView8"
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+        <com.alimojarrad.fair.Modules.Common.CustomViews.CustomEditText
+            android:id="@+id/findcaractivity_pickup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:inputType="date"
+            app:hint="Pickup date : YYYY-MM-dd"
+            app:hintOnFocus="Pickup Date"
+            app:layout_constraintEnd_toEndOf="@+id/findcaractivity_address"
+            app:layout_constraintStart_toStartOf="@+id/findcaractivity_address"
+            app:layout_constraintTop_toBottomOf="@+id/findcaractivity_address" />
+
+        <com.alimojarrad.fair.Modules.Common.CustomViews.CustomEditText
+            android:id="@+id/findcaractivity_dropoff"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:inputType="date"
+            app:hint="Drop-off date : YYYY-MM-dd"
+            app:hintOnFocus="Drop-off Date"
+            app:layout_constraintEnd_toEndOf="@+id/findcaractivity_pickup"
+            app:layout_constraintStart_toStartOf="@+id/findcaractivity_pickup"
+            app:layout_constraintTop_toBottomOf="@+id/findcaractivity_pickup" >
+
+
+        </com.alimojarrad.fair.Modules.Common.CustomViews.CustomEditText>
+
+        <FrameLayout
+            android:id="@+id/findcaractivity_viewoptions"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/s_button_round"
+            android:backgroundTint="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/findcaractivity_dropoff"
+            app:layout_constraintVertical_bias="1.0">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/arial"
+                android:text="View Options"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+
+        </FrameLayout>
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
