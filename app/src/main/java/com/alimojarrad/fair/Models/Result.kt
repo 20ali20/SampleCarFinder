@@ -10,7 +10,7 @@ data class Result(
         var location: Location?=null,
         var address: Address?=null,
         var cars : ArrayList<Car>?=null,
-        var distance : Int?=null
+        var distance : String?=null
 )
 
 data class Provider(

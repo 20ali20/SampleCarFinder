@@ -36,10 +36,11 @@ object Util {
         return df.format(double).toDouble()
     }
 
-    fun getRoundedFloatAsInt(float : Float) : Int {
+    fun getRoundedFloatAsString(float : Float) : String {
         val df = DecimalFormat("#.#")
         df.roundingMode = RoundingMode.CEILING
-        return df.format(float).toInt()
+        var value = df.format(float)
+        return value
     }
 
 

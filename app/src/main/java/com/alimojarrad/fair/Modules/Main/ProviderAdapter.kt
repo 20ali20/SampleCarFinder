@@ -154,8 +154,8 @@ private class ResultListViewHolder(itemView: View, val context: Context, val cur
             destination.longitude = it.longitude!!
             currentLocation?.let {
                 val radius = it.distanceTo(destination)*0.000621371f
-                result.distance = Util.getRoundedFloatAsInt(radius)
-                this.radius.text = "$radius"
+                result.distance = Util.getRoundedFloatAsString(radius)
+                this.radius.text = "${result.distance}"
 
             }
         }
