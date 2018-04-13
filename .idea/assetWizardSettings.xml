@@ -128,9 +128,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="00249c" />
-                            <entry key="outputName" value="v_gps_location" />
-                            <entry key="sourceFile" value="C:\Users\mojar\Downloads\automobile.svg" />
+                            <entry key="outputName" value="v_logo" />
+                            <entry key="sourceFile" value="C:\Users\mojar\Downloads\iconmonstr-facebook-4.svg" />
                           </map>
                         </option>
                       </PersistentState>

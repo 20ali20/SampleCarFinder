@@ -171,6 +171,8 @@ class FindCarActivity : AppCompatActivity() {
             p1 = LatLng(location.latitude, location.longitude)
         } catch (ex: IOException) {
             ex.printStackTrace()
+        }catch (ob : IndexOutOfBoundsException){
+            ob.printStackTrace()
         }
         return p1
     }

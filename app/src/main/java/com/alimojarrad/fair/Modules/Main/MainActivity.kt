@@ -347,10 +347,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     fun CarNavigationClickListener(clickEvent: CarClickEvent) {
         when (clickEvent.clickType) {
             ClickType.NAVIGATE -> {
-                var gmmIntentUri = Uri.parse("google.navigationKey:q=${clickEvent.latitude},${clickEvent.longitude}")
+                var gmmIntentUri = Uri.parse("google.navigation:q=${clickEvent.latitude},${clickEvent.longitude}")
                 var mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                mapIntent.`package` = "com.google.android.apps.maps"
-                startActivity(mapIntent)
+                mapIntent.`package`= "com.google.android.apps.maps"
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(mapIntent)
+                }else{
+                    Toast.makeText(this,"This feature is not available at the moment",Toast.LENGTH_SHORT).show()
+                }
             }
             ClickType.LOCATE -> {
                 var location = Location("")
