@@ -1,5 +1,6 @@
 package com.alimojarrad.fair.Modules.Selection
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -8,12 +9,17 @@ import android.location.Geocoder
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.SeekBar
+import android.widget.Toast
 import com.alimojarrad.fair.Modules.Main.MainActivity
 import com.alimojarrad.fair.R
 import com.alimojarrad.fair.Services.API.Interfaces.CarResultQueryParam
 import com.google.android.gms.maps.model.LatLng
 import com.sidecarhealth.Modules.Common.Util
+import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_find_car.*
+import timber.log.Timber
 import java.io.IOException
 import java.io.Serializable
 import java.text.SimpleDateFormat
@@ -102,15 +108,31 @@ class FindCarActivity : AppCompatActivity() {
             findcaractivity_address.error = "Please enter an address first"
         } else {
             findcaractivity_address.error = null
-            var latlng = getGeoLocation(findcaractivity_address.text)
-            if (latlng != null) {
-                map[CarResultQueryParam.Latitude.q] = Util.getRoundedDouble(latlng!!.latitude).toString()
-                map[CarResultQueryParam.Longitutde.q] = Util.getRoundedDouble(latlng!!.longitude).toString()
-                map[CarResultQueryParam.Radius.q] = "50"
-            } else {
-                flag = false
-                findcaractivity_address.error = "Please enter a valid address"
-            }
+            RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            {
+                                if (it) {
+                                    var latlng = getGeoLocation(findcaractivity_address.text)
+                                    if (latlng != null) {
+                                        map[CarResultQueryParam.Latitude.q] = Util.getRoundedDouble(latlng!!.latitude).toString()
+                                        map[CarResultQueryParam.Longitutde.q] = Util.getRoundedDouble(latlng!!.longitude).toString()
+                                        map[CarResultQueryParam.Radius.q] = "50"
+                                    } else {
+                                        flag = false
+                                        findcaractivity_address.error = "Please enter a valid address"
+                                    }
+                                }else{
+                                    Toast.makeText(this,"Please Allow us to use your location.",Toast.LENGTH_SHORT).show()
+                                    flag = false
+                                }
+                            },
+                            {
+                                Timber.e(it)
+                            }
+                    )
+
         }
 
         if (findcaractivity_pickup.text.isEmpty()) {

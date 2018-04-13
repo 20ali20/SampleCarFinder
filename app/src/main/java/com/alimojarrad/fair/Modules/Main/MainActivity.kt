@@ -128,43 +128,45 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationManager?.let { locationManager ->
-            RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+            RxPermissions(this).requestEach(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE)
+                    .takeWhile { Permission -> Permission.granted  }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             {
-                                if (it) {
+                                if (it.granted) {
                                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                                             2000,
                                             10f, locationListenerGPS)
+
+                                    locationManager?.let { locationManager ->
+                                        var isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                                        var isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+
+                                        if (!(isGPSEnabled || isNetworkEnabled))
+                                        else {
+                                            if (isNetworkEnabled) {
+                                                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                                                        LOCATION_UPDATE_MIN_TIME, LOCATION_UPDATE_MIN_DISTANCE, locationListenerGPS)
+                                                currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                                            }
+
+                                            if (isGPSEnabled) {
+                                                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                                                        LOCATION_UPDATE_MIN_TIME, LOCATION_UPDATE_MIN_DISTANCE, locationListenerGPS)
+                                                currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                                            }
+                                        }
+                                        currentLocation?.let {
+                                            showLocationOnMap(it, MarkerType.CURRENTPOSITION, "Current Location", null)
+                                        }
+                                    }
                                 }
                             },
                             {
                                 Timber.e(it)
                             }
                     )
-        }
-        locationManager?.let { locationManager ->
-            var isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-            var isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-
-            if (!(isGPSEnabled || isNetworkEnabled))
-            else {
-                if (isNetworkEnabled) {
-                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                            LOCATION_UPDATE_MIN_TIME, LOCATION_UPDATE_MIN_DISTANCE, locationListenerGPS)
-                    currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                }
-
-                if (isGPSEnabled) {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                            LOCATION_UPDATE_MIN_TIME, LOCATION_UPDATE_MIN_DISTANCE, locationListenerGPS)
-                    currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                }
-            }
-            currentLocation?.let {
-                showLocationOnMap(it, MarkerType.CURRENTPOSITION, "Current Location", null)
-            }
         }
     }
 
