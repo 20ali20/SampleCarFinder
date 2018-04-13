@@ -173,7 +173,7 @@ class CustomEditText : RelativeLayout {
         borderColor = ta.getColor(R.styleable.CustomEditText_borderColor, (Color.parseColor("#d45113")))
         hintColor = ta.getColor(R.styleable.CustomEditText_hintColor, (Color.parseColor("#AAAAAA")))
         textColor = ta.getColor(R.styleable.CustomEditText_textColor, (Color.parseColor("#434343")))
-        floatingLabelColor = ta.getColor(R.styleable.CustomEditText_floatingLabelColor, (Color.parseColor("#64c5af")))
+        floatingLabelColor = ta.getColor(R.styleable.CustomEditText_floatingLabelColor, (Color.parseColor("#d45113")))
         hintOnfocus = ta.getString(R.styleable.CustomEditText_hintOnFocus)
 
 

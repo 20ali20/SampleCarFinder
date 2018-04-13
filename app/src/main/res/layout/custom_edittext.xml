@@ -12,7 +12,7 @@
         android:id="@+id/customedittext_border"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/s_border"
+        android:background="@drawable/s_custom_border"
         app:layout_constraintBottom_toBottomOf="@+id/customedittext_edittext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +56,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:fontFamily="@font/arial"
@@ -65,8 +65,22 @@
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
         app:layout_constraintEnd_toStartOf="@+id/customedittext_rightdrawable"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/customedittext_leftdrawable"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/customedittext_leftdrawable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:adjustViewBounds="true"
+        android:maxHeight="30dp"
+        android:maxWidth="30dp"
+        android:scaleType="fitXY"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/customedittext_border"
+        app:layout_constraintStart_toStartOf="@+id/customedittext_border"
+        app:layout_constraintTop_toTopOf="@+id/customedittext_border" />
 
     <ImageView
         android:id="@+id/customedittext_rightdrawable"

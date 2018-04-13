@@ -4,13 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:fillViewport="true"
     android:fitsSystemWindows="true">
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".Modules.Selection.FindCarActivity">
 
         <TextView
@@ -33,8 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:hint="Please Enter your address here"
-            app:hintOnFocus="Address"
+            app:hint="Address"
             app:inputType="text"
             app:layout_constraintEnd_toEndOf="@+id/textView8"
             app:layout_constraintStart_toStartOf="@+id/textView8"
@@ -46,8 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             app:inputType="date"
-            app:hint="Pickup date : YYYY-MM-dd"
-            app:hintOnFocus="Pickup Date"
+            app:hint="Pickup date"
+            app:hintOnFocus="YYYY-DD-MM"
             app:layout_constraintEnd_toEndOf="@+id/findcaractivity_address"
             app:layout_constraintStart_toStartOf="@+id/findcaractivity_address"
             app:layout_constraintTop_toBottomOf="@+id/findcaractivity_address" />
@@ -58,14 +57,26 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             app:inputType="date"
-            app:hint="Drop-off date : YYYY-MM-dd"
-            app:hintOnFocus="Drop-off Date"
+            app:hint="Drop-off date"
+            app:hintOnFocus="YYYY-MM-DD"
             app:layout_constraintEnd_toEndOf="@+id/findcaractivity_pickup"
             app:layout_constraintStart_toStartOf="@+id/findcaractivity_pickup"
             app:layout_constraintTop_toBottomOf="@+id/findcaractivity_pickup" >
 
 
         </com.alimojarrad.fair.Modules.Common.CustomViews.CustomEditText>
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/arial"
+            android:text="@string/radius"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/findcaractivity_dropoff"
+            app:layout_constraintTop_toBottomOf="@+id/findcaractivity_dropoff" />
 
         <FrameLayout
             android:id="@+id/findcaractivity_viewoptions"
@@ -80,19 +91,50 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/findcaractivity_dropoff"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintTop_toBottomOf="@+id/findcaractivity_radius">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/arial"
-                android:text="View Options"
+                android:text="@string/options"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
 
 
         </FrameLayout>
+
+        <SeekBar
+            android:id="@+id/findcaractivity_radius"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:max="99"
+            android:progress="50"
+            android:progressBackgroundTint="@color/colorAccent"
+            android:progressTint="@color/colorPrimary"
+            android:scaleY="1.5"
+            android:thumb="@drawable/s_thumb_background"
+            android:thumbTint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="@+id/findcaractivity_dropoff"
+            app:layout_constraintStart_toStartOf="@+id/findcaractivity_dropoff"
+            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+        <TextView
+            android:id="@+id/findcaractivity_radius_amount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textView9"
+            app:layout_constraintEnd_toEndOf="@+id/findcaractivity_dropoff"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/textView9"
+            app:layout_constraintTop_toTopOf="@+id/textView9"
+            tools:text="55" />
+
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

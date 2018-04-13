@@ -18,6 +18,7 @@ import android.widget.Toast
 import com.alimojarrad.fair.Models.Result
 import com.alimojarrad.fair.Models.ServerResponse
 import com.alimojarrad.fair.R
+import com.alimojarrad.fair.Services.API.Interfaces.CarResultQueryParam
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -49,15 +50,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private var currentTabPos = 0
 
     enum class MarkerType {
-        POSITION,
-        CARLOCATION
+        USERADDRESS,
+        CARLOCATION,
+        CURRENTPOSITION
     }
 
     companion object {
         const val dataKey = "MainActivityDataKey"
         fun startActivity(context: Context, map: HashMap<String, String>) {
             val intent = Intent(context, MainActivity::class.java)
-            intent.putExtra(dataKey,map as Serializable)
+            intent.putExtra(dataKey, map as Serializable)
             context.startActivity(intent)
         }
     }
@@ -73,8 +75,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         setupLocationListener()
         setupViews()
         setupInteractions()
-        var test = retrieveMapParams()
-        Timber.e(test.toString())
 
     }
 
@@ -117,9 +117,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val locationListenerGPS = object : LocationListener {
             override fun onLocationChanged(location: android.location.Location) {
-                Timber.e("${location.longitude}  and  ${location.latitude}")
                 currentLocation = location
-                showLocationOnMap(location, MarkerType.POSITION, "Current Location", null)
+                showLocationOnMap(location, MarkerType.CURRENTPOSITION, "Current Location", null)
             }
 
             override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
@@ -164,13 +163,24 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
             currentLocation?.let {
-                showLocationOnMap(it, MarkerType.POSITION, "Current Location", null)
+                showLocationOnMap(it, MarkerType.CURRENTPOSITION, "Current Location", null)
             }
         }
     }
 
     private fun setupViews() {
         viewModel = ViewModelProvider.NewInstanceFactory().create(ResultViewModel::class.java)
+        retrieveMapParams()?.let {
+            try {
+                var location = Location("")
+                location.latitude = it[CarResultQueryParam.Latitude.q]!!.toDouble()
+                location.longitude = it[CarResultQueryParam.Longitutde.q]!!.toDouble()
+                showLocationOnMap(location, MarkerType.USERADDRESS, "Provider Address Location", R.drawable.v_address_marker)
+            } catch (e: NullPointerException) {
+
+            }
+
+        }
         setupTabs()
         setupViewModelObservers()
         setupRecyclerview()
@@ -185,17 +195,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 mainactivity_ascdec.setImageResource(R.drawable.v_dec)
             }
             when (currentTabPos) {
-                0 -> { // Price
-                    adapter?.let {
-                        it.sortBy(ProviderAdapter.SortType.PRICE, isAsc)
-                    }
-                }
-                1 -> { // Distance
+                0 -> { // Distance
                     adapter?.let {
                         it.sortBy(ProviderAdapter.SortType.DISTANCE, isAsc)
                     }
                 }
-                2 -> { // Provider
+                1 -> { // Provider
                     adapter?.let {
                         it.sortBy(ProviderAdapter.SortType.PROVIDER, isAsc)
                     }
@@ -222,17 +227,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 currentTabPos = tab?.position ?: 0
                 when (tab?.position) {
-                    0 -> { // Price
-                        adapter?.let {
-                            it.sortBy(ProviderAdapter.SortType.PRICE, isAsc)
-                        }
-                    }
-                    1 -> { // Distance
+                    0 -> { // Distance
                         adapter?.let {
                             it.sortBy(ProviderAdapter.SortType.DISTANCE, isAsc)
                         }
                     }
-                    2 -> { // Provider
+                    1 -> { // Provider
                         adapter?.let {
                             it.sortBy(ProviderAdapter.SortType.PROVIDER, isAsc)
                         }
@@ -249,6 +249,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             it?.let {
                 if (it.isSuccessful == false) {
                     Toast.makeText(this, "${it.reason}", Toast.LENGTH_SHORT).show()
+                    mainactivity_refresh.isRefreshing = false
                 }
             }
         }
@@ -267,7 +268,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setupRecyclerview() {
         adapter = ProviderAdapter(this)
-        adapter!!.currentLocation = currentLocation
+        try {
+            val latitude = retrieveMapParams()!![CarResultQueryParam.Latitude.q]!!.toDouble()
+            val longitude = retrieveMapParams()!![CarResultQueryParam.Longitutde.q]!!.toDouble()
+            var location = Location("")
+            location.latitude = latitude
+            location.longitude = longitude
+            adapter!!.currentLocation = location
+        } catch (e: NullPointerException) {
+
+        }
+
         mainactivity_recyclerview.adapter = adapter
         mainactivity_recyclerview.layoutManager = LinearLayoutManager(this)
         retrieveMapParams()?.let {
@@ -286,11 +297,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         var latlong = LatLng(location.latitude, location.longitude)
 
         when (type) {
-            MarkerType.POSITION -> {
-                mapMarkers[MarkerType.POSITION]?.let {
+            MarkerType.USERADDRESS -> {
+                mapMarkers[MarkerType.USERADDRESS]?.let {
                     it.remove()
                 }
-                mapMarkers.remove(MarkerType.POSITION)
+                mapMarkers.remove(MarkerType.USERADDRESS)
             }
 
             MarkerType.CARLOCATION -> {
@@ -298,6 +309,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     it.remove()
                 }
                 mapMarkers.remove(MarkerType.CARLOCATION)
+            }
+
+            MarkerType.CURRENTPOSITION -> {
+                mapMarkers[MarkerType.CURRENTPOSITION]?.let {
+                    it.remove()
+                }
+                mapMarkers.remove(MarkerType.CURRENTPOSITION)
             }
         }
 
@@ -307,11 +325,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                         .position(latlong)
                         .icon(Util.getMarkerBitmap(this, drawable))
         )
-        marker?.let{
-            if (drawable != null) {
-                mapMarkers[MarkerType.CARLOCATION] = it
-            } else {
-                mapMarkers[MarkerType.POSITION] = it
+        marker?.let {
+            when (type) {
+                MarkerType.USERADDRESS -> {
+                    mapMarkers[MarkerType.USERADDRESS] = it
+                }
+                MarkerType.CURRENTPOSITION -> {
+                    mapMarkers[MarkerType.CURRENTPOSITION] = it
+                }
+                MarkerType.CARLOCATION -> {
+                    mapMarkers[MarkerType.CARLOCATION] = it
+                }
             }
         }
 
@@ -319,23 +343,23 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
 
-@Subscribe
-fun CarNavigationClickListener(clickEvent: CarClickEvent) {
-    when (clickEvent.clickType) {
-        ClickType.NAVIGATE -> {
-            var gmmIntentUri = Uri.parse("google.navigationKey:q=${clickEvent.latitude},${clickEvent.longitude}")
-            var mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-            mapIntent.`package` = "com.google.android.apps.maps"
-            startActivity(mapIntent)
-        }
-        ClickType.LOCATE -> {
-            var location = Location("")
-            location.latitude = clickEvent.latitude
-            location.longitude = clickEvent.longitude
-            showLocationOnMap(location, MarkerType.CARLOCATION, clickEvent.title, R.drawable.v_car_marker)
+    @Subscribe
+    fun CarNavigationClickListener(clickEvent: CarClickEvent) {
+        when (clickEvent.clickType) {
+            ClickType.NAVIGATE -> {
+                var gmmIntentUri = Uri.parse("google.navigationKey:q=${clickEvent.latitude},${clickEvent.longitude}")
+                var mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                mapIntent.`package` = "com.google.android.apps.maps"
+                startActivity(mapIntent)
+            }
+            ClickType.LOCATE -> {
+                var location = Location("")
+                location.latitude = clickEvent.latitude
+                location.longitude = clickEvent.longitude
+                showLocationOnMap(location, MarkerType.CARLOCATION, clickEvent.title, R.drawable.v_car_marker)
 
+            }
         }
     }
-}
 
 }

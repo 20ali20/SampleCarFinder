@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.alimojarrad.fair.Models.Result
 import com.alimojarrad.fair.R
+import com.sidecarhealth.Modules.Common.Util
 import org.greenrobot.eventbus.EventBus
 
 
@@ -28,7 +29,6 @@ class ProviderAdapter(private val context: Context) : RecyclerView.Adapter<Recyc
 
     enum class SortType{
         PROVIDER,
-        PRICE,
         DISTANCE
     }
 
@@ -63,18 +63,6 @@ class ProviderAdapter(private val context: Context) : RecyclerView.Adapter<Recyc
                     }
                 }
                 notifyDataSetChanged()
-            }
-            SortType.PRICE->{
-//                if(isAsc){
-//                    list.sortBy {
-//                        it.
-//                    }
-//                }else{
-//                    list.sortByDescending {
-//                        it.distance
-//                    }
-//                }
-//                notifyDataSetChanged()
             }
             SortType.PROVIDER->{
                 if(isAsc){
@@ -165,8 +153,8 @@ private class ResultListViewHolder(itemView: View, val context: Context, val cur
             destination.latitude = it.latitude!!
             destination.longitude = it.longitude!!
             currentLocation?.let {
-                val radius = it.distanceTo(destination).toInt()
-                result.distance = radius
+                val radius = it.distanceTo(destination)*0.000621371f
+                result.distance = Util.getRoundedFloatAsInt(radius)
                 this.radius.text = "$radius"
 
             }

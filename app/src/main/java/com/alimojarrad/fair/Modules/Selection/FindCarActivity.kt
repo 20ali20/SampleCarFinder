@@ -7,10 +7,12 @@ import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.SeekBar
 import com.alimojarrad.fair.Modules.Main.MainActivity
 import com.alimojarrad.fair.R
 import com.alimojarrad.fair.Services.API.Interfaces.CarResultQueryParam
 import com.google.android.gms.maps.model.LatLng
+import com.sidecarhealth.Modules.Common.Util
 import kotlinx.android.synthetic.main.activity_find_car.*
 import java.io.IOException
 import java.io.Serializable
@@ -24,10 +26,12 @@ class FindCarActivity : AppCompatActivity() {
     }
 
     companion object {
+
         const val dataKey = "FindCarDataKey"
         const val resultCode = 999
         const val membersKey = "MEMBERSKEY"
         const val navigationKey = "NAVIGATION"
+
         fun startActivityForResult(activity: Activity) {
             val intent = Intent(activity, FindCarActivity::class.java)
             var bundle = Bundle()
@@ -46,11 +50,12 @@ class FindCarActivity : AppCompatActivity() {
     }
 
 
-    var map = HashMap<String, String>()
+   private var map = HashMap<String, String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_find_car)
+        setupViews()
         setupInteraction()
     }
 
@@ -58,17 +63,30 @@ class FindCarActivity : AppCompatActivity() {
         return intent.getSerializableExtra(navigationKey) as? NavigationType
     }
 
+    private fun setupViews(){
+        findcaractivity_radius_amount.text = "${findcaractivity_radius.progress}"
+    }
+
     private fun setupInteraction() {
+
+        findcaractivity_radius.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(_p0: SeekBar?, progress: Int, _p2: Boolean) {
+                findcaractivity_radius_amount.text = "$progress"
+            }
+            override fun onStartTrackingTouch(_p0: SeekBar?) {}
+            override fun onStopTrackingTouch(_p0: SeekBar?) {}
+        })
+
         findcaractivity_viewoptions.setOnClickListener {
             retrieveNavigationType()?.let {
                 when (it) {
                     NavigationType.EXPECTSRESULTS -> {
-                        if (validate()) {
+                        if (validateAndBuildQuery()) {
                             proceedWithResults(map)
                         }
                     }
                     NavigationType.NORESULTS -> {
-                        if (validate()) {
+                        if (validateAndBuildQuery()) {
                             proceed(map)
                         }
                     }
@@ -77,7 +95,7 @@ class FindCarActivity : AppCompatActivity() {
         }
     }
 
-    private fun validate(): Boolean {
+    private fun validateAndBuildQuery(): Boolean {
         var flag = true
         if (findcaractivity_address.text.isEmpty()) {
             flag = false
@@ -86,8 +104,8 @@ class FindCarActivity : AppCompatActivity() {
             findcaractivity_address.error = null
             var latlng = getGeoLocation(findcaractivity_address.text)
             if (latlng != null) {
-                map[CarResultQueryParam.Latitude.q] = latlng!!.latitude.toString()
-                map[CarResultQueryParam.Longitutde.q] = latlng!!.longitude.toString()
+                map[CarResultQueryParam.Latitude.q] = Util.getRoundedDouble(latlng!!.latitude).toString()
+                map[CarResultQueryParam.Longitutde.q] = Util.getRoundedDouble(latlng!!.longitude).toString()
                 map[CarResultQueryParam.Radius.q] = "50"
             } else {
                 flag = false
@@ -123,6 +141,9 @@ class FindCarActivity : AppCompatActivity() {
                 findcaractivity_dropoff.error = "Drop-off date must be after pickup."
             }
         }
+        if(flag){
+            map[CarResultQueryParam.Radius.q]=findcaractivity_radius_amount.text.toString()
+        }
         return flag
     }
 
@@ -142,7 +163,6 @@ class FindCarActivity : AppCompatActivity() {
         val address: List<Address>?
         var p1: LatLng? = null
         try {
-            // May throw an IOException
             address = coder.getFromLocationName(strAddress, 5)
             if (address == null) {
                 return null
@@ -161,5 +181,7 @@ class FindCarActivity : AppCompatActivity() {
         val date2 = sdf.parse(secondDate)
         return date1.after(date2)
     }
+
+
 
 }

@@ -10,4 +10,6 @@
     <string name="Locate">Locate on the map</string>
     <string name="navigate">Get Navigation</string>
     <string name="select">Please fill the fields below before we proceed.</string>
+    <string name="radius">Search Radius :</string>
+    <string name="options">View Options</string>
 </resources>

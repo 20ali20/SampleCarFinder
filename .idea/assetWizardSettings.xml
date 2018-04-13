@@ -118,7 +118,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_visibility_off_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/maps/ic_person_pin_circle_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -128,10 +128,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="535a55" />
-                            <entry key="outputName" value="v_password_invisible" />
-                            <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\mojar\Downloads\iconmonstr-facebook-4.svg" />
+                            <entry key="color" value="00249c" />
+                            <entry key="outputName" value="v_gps_location" />
+                            <entry key="sourceFile" value="C:\Users\mojar\Downloads\automobile.svg" />
                           </map>
                         </option>
                       </PersistentState>
