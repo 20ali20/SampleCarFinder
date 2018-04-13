@@ -1,6 +1,8 @@
 # SampleCarFinder
 Sample Car Finder Project
 
+NOTE - I have used GEOCODER to determine Lat and Lon of an address given which will not work on emulators. As a measure I made it so without a verified address you can not go to the actual MainActivity to see search results hence please test on an actual device.
+
 This is revolving around Amadeus Car Finder Endpoint :
 
 1. The Endpoint can not accept large lat, lon, radius values and crashes
